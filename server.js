@@ -1,17 +1,24 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
+
+// MIDDLEWARE
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
 
+// ✅ SERVE STATIC FILES FIRST
+app.use(express.static(path.join(__dirname, "public")));
+
+// DB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
+// SCHEMA
 const UserSchema = new mongoose.Schema({
   email: String,
   password: String
@@ -19,32 +26,28 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 
+// API ROUTES
 app.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
     await User.create({ email, password });
     res.json({ message: "Registration successful" });
-  } catch (error) {
-    res.status(500).json({ error: "Registration failed" });
+  } catch (err) {
+    res.status(500).json({ message: "Registration failed" });
   }
 });
 
 app.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email, password });
-    res.json({ success: !!user });
-  } catch (error) {
-    res.status(500).json({ success: false });
-  }
+  const { email, password } = req.body;
+  const user = await User.findOne({ email, password });
+  res.json({ success: !!user });
 });
 
-
-const path = require("path");
-
-// Root route
-app.get("/", (req, res) => {
+// ✅ HTML FALLBACK MUST BE LAST
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-module.exports = app; 
+// EXPORT FOR VERCEL
+module.exports = app;
+
