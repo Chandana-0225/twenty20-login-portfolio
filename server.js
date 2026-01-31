@@ -20,16 +20,25 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model("User", UserSchema);
 
 app.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  await User.create({ email, password });
-  res.json({ message: "Registration successful" });
+  try {
+    const { email, password } = req.body;
+    await User.create({ email, password });
+    res.json({ message: "Registration successful" });
+  } catch (error) {
+    res.status(500).json({ error: "Registration failed" });
+  }
 });
 
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email, password });
-  res.json({ success: !!user });
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email, password });
+    res.json({ success: !!user });
+  } catch (error) {
+    res.status(500).json({ success: false });
+  }
 });
+
 
 const path = require("path");
 
@@ -38,6 +47,4 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
+module.exports = app; 
