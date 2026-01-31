@@ -1,6 +1,6 @@
 async function register() {
-  const email = emailInput();
-  const password = passwordInput();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
   const res = await fetch("/register", {
     method: "POST",
@@ -9,12 +9,12 @@ async function register() {
   });
 
   const data = await res.json();
-  document.getElementById("msg").innerText = data.message;
+  document.getElementById("msg").innerText = data.message || data.error;
 }
 
 async function login() {
-  const email = emailInput();
-  const password = passwordInput();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
   const res = await fetch("/login", {
     method: "POST",
@@ -23,13 +23,9 @@ async function login() {
   });
 
   const data = await res.json();
-  if (data.success) window.location.href = "/portfolio.html";
-  else document.getElementById("msg").innerText = "Invalid credentials";
-}
-
-function emailInput() {
-  return document.getElementById("email").value;
-}
-function passwordInput() {
-  return document.getElementById("password").value;
+  if (data.success) {
+    window.location.href = "portfolio.html";
+  } else {
+    document.getElementById("msg").innerText = "Invalid credentials";
+  }
 }
