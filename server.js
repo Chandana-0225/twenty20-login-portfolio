@@ -8,16 +8,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 app.post("/register", (req, res) => {
   res.json({ message: "Registration successful (demo)" });
 });
 
 app.post("/login", (req, res) => {
   res.json({ success: true });
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 module.exports = app;
