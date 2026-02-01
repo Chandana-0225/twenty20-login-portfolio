@@ -1,27 +1,32 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-require("dontenv").config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
 
+// ✅ serve static files correctly
+app.use(express.static(path.join(__dirname, "public")));
+
+// ✅ home route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// ✅ register API (always JSON)
 app.post("/register", (req, res) => {
-  res.json({ message: "Registration successful (demo)" });
+  return res.json({ message: "Registration successful (demo)" });
 });
 
+// ✅ login API (always JSON)
 app.post("/login", (req, res) => {
-  res.json({ success: true });
+  return res.json({ success: true });
 });
 
+// ❗ IMPORTANT for Vercel
 module.exports = app;
+
 
 
