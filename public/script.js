@@ -1,7 +1,6 @@
 async function register() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const msg = document.getElementById("msg");
 
   const res = await fetch("/register", {
     method: "POST",
@@ -10,13 +9,12 @@ async function register() {
   });
 
   const data = await res.json();
-  msg.innerText = data.message;
+  document.getElementById("msg").innerText = data.message;
 }
 
 async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const msg = document.getElementById("msg");
 
   const res = await fetch("/login", {
     method: "POST",
@@ -27,12 +25,12 @@ async function login() {
   const data = await res.json();
 
   if (data.success) {
-    localStorage.setItem("userEmail", data.email);
-    window.location.href = "portfolio.html";
+    window.location.href = "/portfolio.html";
   } else {
-    msg.innerText = data.message;
+    document.getElementById("msg").innerText = "Login failed";
   }
 }
+
 
 
 
