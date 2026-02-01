@@ -9,7 +9,7 @@ async function register() {
   });
 
   const data = await res.json();
-  document.getElementById("msg").innerText = data.message || data.error;
+  document.getElementById("msg").innerText = data.message;
 }
 
 async function login() {
@@ -23,9 +23,10 @@ async function login() {
   });
 
   const data = await res.json();
+
   if (data.success) {
-    window.location.href = "portfolio.html";
+    window.location.href = "/portfolio.html";
   } else {
-    document.getElementById("msg").innerText = "Invalid credentials";
+    document.getElementById("msg").innerText = "Invalid login";
   }
 }
