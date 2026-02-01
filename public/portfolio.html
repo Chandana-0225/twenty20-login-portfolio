@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>Portfolio</title>
+</head>
 <body>
+  <h2>Welcome to Your Portfolio</h2>
 
-<h2>Portfolio</h2>
-<p>Name: Chandana</p>
-<p>Skills: HTML, CSS, JavaScript</p>
+  <p>Email: <span id="email"></span></p>
 
-<button onclick="logout()">Logout</button>
+  <h3>About Me</h3>
+  <p>This is my basic portfolio page.</p>
 
-<script>
-function logout() {
-  window.location.href = "/";
-}
-</script>
+  <button onclick="logout()">Logout</button>
 
+  <script>
+    const email = localStorage.getItem("userEmail");
+
+    if (!email) {
+      window.location.href = "/";
+    }
+
+    document.getElementById("email").innerText = email;
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "/";
+    }
+  </script>
 </body>
 </html>
