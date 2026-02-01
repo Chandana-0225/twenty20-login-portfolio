@@ -13,13 +13,9 @@ async function register() {
 }
 
 async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
   const res = await fetch("/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
+    headers: { "Content-Type": "application/json" }
   });
 
   const data = await res.json();
@@ -30,6 +26,7 @@ async function login() {
     document.getElementById("msg").innerText = "Login failed";
   }
 }
+
 
 
 
