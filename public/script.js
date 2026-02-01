@@ -9,7 +9,7 @@ async function register() {
   });
 
   const data = await res.json();
-  document.getElementById("msg").innerText = data.message;
+  document.getElementById("msg").innerText = data.message || "Registered";
 }
 
 async function login() {
@@ -30,3 +30,4 @@ async function login() {
     document.getElementById("msg").innerText = "Invalid login";
   }
 }
+
